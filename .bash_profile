@@ -27,7 +27,7 @@ is_git_repository () {
   git branch > /dev/null 2>&1
 }
 set_git_branch () {
-  BRANCH=`(parse_git_branch)`
+  BRANCH="(`parse_git_branch`)"
 }
 parse_git_branch () {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
@@ -85,7 +85,7 @@ PROMPT_COMMAND=set_bash_prompt
 alias gc="git commit -m"
 alias gp="git pull"
 alias gs="git status"
-alias gitp="git push"
+alias gpush="git push"
 alias ga="git add ."
 alias gA="git add -A"
 # GIT ALIASES | END
@@ -97,6 +97,9 @@ alias mkdir="mkdir -pv"
 # DIRECTORY NAVIGATION | BEGIN
 alias gtfg="cd $HOME/Programming/fg"
 alias gtfga="cd $HOME/Programming/fg/src/angular_frontend"
+dir () {
+  cd $HOME/Programming/$1
+}
 # DIRECTORY NAVIGATION | END
 
 # LIST DIRECTORIES | BEGIN
@@ -125,6 +128,10 @@ alias makemig="python manage.py makemigrations"
 alias serve="python manage.py runserver"
 # DJANGO ALIASES | END
 
+# ANGULAR | BEGIN
+alias build="ng build --watch"
+# ANGULAR | END
+
 # ANACONDA | BEGIN
 alias defcondaa="$HOME/anaconda/bin/activate"
 alias defcondad="$HOME/anaconda/bin/deactivate"
@@ -144,10 +151,14 @@ stop_venv () {
   if test -z "$VIRTUAL_ENV" ; then
     echo "No virtual environment active"
   else
-    ENV = $VIRTUAL_ENV
+    ENV=$VIRTUAL_ENV
     echo "Deactivating virtual environment $VIRTUAL_ENV ..."
       deactivate
-    echo "$ENV Deactivated!"
+    if test -z "$VIRTUAL_ENV"; then
+      echo "$ENV Deactivated!"
+    else
+      echo "\n${RED}Something went wrong, $ENV not deactivated${OFF}"
+    fi
   fi
 }
 # VIRTUALENVIRONMENT | END
