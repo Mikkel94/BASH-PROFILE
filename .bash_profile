@@ -100,6 +100,19 @@ alias gtfga="cd $HOME/Programming/fg/src/angular_frontend"
 dir () {
   cd $HOME/Programming/$1
 }
+up () {
+  path=""
+  if [$1 -gt 1]
+  then
+    for i in `seq 1 $1`;
+      do
+        path=$path+"../"
+      done
+   else
+     path=".."
+   fi
+   cd $path
+}
 # DIRECTORY NAVIGATION | END
 
 # LIST DIRECTORIES | BEGIN
@@ -166,6 +179,13 @@ stop_venv () {
 # PRINT PUBLIC IP ADDRESS TO CONSOLE | BEGIN
 alias myip="curl http://ipecho.net/plain; echo"
 # PRINT PUBLIC IP ADDRESS TO CONSOLE | END
+
+# CHANGE WALLPAPER | BEGIN
+# Only for OSX
+set_wallpaper () {
+  osascript -e 'tell application "Finder" to set desktop picture to POSIX file $PWD/$1"'
+}
+# CHANGE WALLPAPER | END
 
 # ALIASES | END
 
